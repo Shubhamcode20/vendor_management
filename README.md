@@ -84,9 +84,3 @@ Use Django REST Framework's built-in authentication classes for this purpose.
 Implement error handling and validations to raise appropriate validation errors if inappropriate IDs or types are caught in the code.
 Ensure to follow these setup instructions and API endpoint details to effectively use the Vendor Management System.
 
-
-<<<<<<< HEAD
-```
-=======
-```
->>>>>>> 2a2659001e7103a2bfda8300c879e0d74bf710ec
