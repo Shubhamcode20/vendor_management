@@ -85,4 +85,8 @@ Implement error handling and validations to raise appropriate validation errors 
 Ensure to follow these setup instructions and API endpoint details to effectively use the Vendor Management System.
 
 
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> 2a2659001e7103a2bfda8300c879e0d74bf710ec
