@@ -17,6 +17,7 @@ class VendorApi(APIView):
         vendor_code = serializers.CharField()
 
     class OutputSerializer(serializers.Serializer):
+        vendor_id=serializers.IntegerField(source='id')
         name = serializers.CharField()
         contact_details = serializers.CharField()
         address = serializers.CharField()
@@ -34,14 +35,14 @@ class VendorApi(APIView):
         return Response(self.OutputSerializer(vendors, many=True).data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        serializer = self.InputSerializer(request.data)
+        serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         vendor = create_vendor(**serializer.validated_data)
         return Response(self.OutputSerializer(vendor).data, status=status.HTTP_201_CREATED)
 
     def put(self, request, vendor_id,  *args, **kwargs):
         vendor = get_object_or_404(Vendor, id=vendor_id)
-        serializer = self.InputSerializer(request.data)
+        serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         vendor = update_vendor(vendor=vendor, **serializer.validated_data)
         return Response(self.OutputSerializer(vendor).data, status=status.HTTP_200_OK)
@@ -88,14 +89,14 @@ class PurchaseOrderApi(APIView):
         return Response(self.OutputSerializer(purchase_orders, many=True).data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        serializer = self.InputSerializer(request.data)
+        serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         purchase_order = create_purchase_order(**serializer.validated_data)
         return Response(self.OutputSerializer(purchase_order).data, status=status.HTTP_201_CREATED)
 
     def put(self, request, purchase_order_id, *args, **kwargs):
         purchase_order = get_object_or_404(PurchaseOrder, id=purchase_order_id)
-        serializer = self.InputSerializer(request.data)
+        serializer = self.InputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         purchase_order = update_purchase_order(purchase_order=purchase_order, **serializer.validated_data)
         return Response(self.OutputSerializer(purchase_order).data, status=status.HTTP_200_OK)
@@ -116,7 +117,6 @@ class VendorPerformanceApi(APIView):
             fulfilment_rate = serializers.FloatField(source='vendor.fulfilment_rate')
         vendor_id = serializers.IntegerField(source='vendor.id')
         vendor_name = serializers.CharField(source='vendor.name')
-
 
     def get(self, request, *args, **kwargs):
         vendor = get_object_or_404(Vendor, id=kwargs['vendor_id'])
