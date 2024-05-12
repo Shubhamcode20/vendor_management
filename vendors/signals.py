@@ -1,8 +1,7 @@
 import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from vendors.models import PurchaseOrder, Vendor, HistoricalPerformance
-from django.db.models import Avg, Count
+from vendors.models import PurchaseOrder, HistoricalPerformance
 from django.utils import timezone
 
 logger = logging.getLogger(__name__)
@@ -11,7 +10,6 @@ logger = logging.getLogger(__name__)
 @receiver(post_save, sender=PurchaseOrder)
 def update_vendor_performance(sender, instance, **kwargs):
     try:
-        print(f'{instance} update all things')
         vendor = instance.vendor
         if instance.status == 'completed':
             purchase_orders = PurchaseOrder.objects.filter(vendor=vendor)
@@ -40,7 +38,7 @@ def update_vendor_performance(sender, instance, **kwargs):
             logger.info(f"creating history of performance of vendor {vendor}")
             HistoricalPerformance.objects.create(
                 vendor=vendor,
-                date=timezone.now().date(),
+                date=timezone.now(),
                 on_time_delivery_rate=vendor.on_time_delivery_rate,
                 quality_rating_avg=vendor.quality_rating_avg,
                 average_response_time=vendor.average_response_time,

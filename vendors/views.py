@@ -128,3 +128,4 @@ class PurchaseOrderAcknowledgeApi(APIView):
     def post(self, request, purchase_order_id, *args, **kwargs):
         purchase_order = get_object_or_404(PurchaseOrder, id=purchase_order_id)
         update_acknowledgement_date(purchase_order=purchase_order)
+        return Response(status=status.HTTP_200_OK)
